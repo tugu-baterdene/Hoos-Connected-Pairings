@@ -38,6 +38,23 @@ def compatibility(s1, s2):
         + confidence_score(s1, s2) * 2
     )
 
+def shared_availability(s1, s2):
+
+    shared = {}
+
+    for day in s1["availability"]:
+
+        if day in s2["availability"]:
+
+            overlap = (
+                set(s1["availability"][day])
+                & set(s2["availability"][day])
+            )
+
+            if overlap:
+                shared[day] = list(overlap)
+
+    return shared
 
 def generate_pairings(students):
     G = nx.Graph()
@@ -47,6 +64,8 @@ def generate_pairings(students):
 
         score = compatibility(s1, s2)
 
+        print(f"Compatibility between {s1['name']} and {s2['name']}: {score}")
+
         if score > 0:
 
             G.add_edge(
@@ -54,6 +73,8 @@ def generate_pairings(students):
                 s2["name"],
                 weight=score
             )
+
+    
 
     # Compute optimal matching
     matching = nx.max_weight_matching(
@@ -67,10 +88,14 @@ def generate_pairings(students):
 
         score = G[n1][n2]["weight"]
 
+        s1 = next(s for s in students if s["name"] == n1)
+        s2 = next(s for s in students if s["name"] == n2)
+
         final_pairs.append({
             "student1": n1,
             "student2": n2,
-            "score": score
+            "score": score,
+            "shared_times": shared_availability(s1, s2)
         })
 
     return final_pairs

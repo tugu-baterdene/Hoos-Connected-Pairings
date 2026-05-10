@@ -1,0 +1,1 @@
+from .pairing_logic import generate_pairings

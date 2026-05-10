@@ -1,4 +1,11 @@
 from itertools import combinations
+import networkx as nx
+
+# Algorithm for pairing students based on:
+#  - Availability overlap (3 points per overlapping time slot)
+#  - Experience difference (4 points if one has facilitated before and the other hasn't)
+#  - Confidence difference (2 points per confidence level difference)
+# Pairs with no availability overlap are considered impossible and given a very low score to ensure they are not paired together.
 
 def overlap_score(s1, s2):
     score = 0
@@ -33,26 +40,38 @@ def compatibility(s1, s2):
 
 
 def generate_pairings(students):
-    all_pairs = []
+    G = nx.Graph()
 
+    # Add weighted edges
     for s1, s2 in combinations(students, 2):
+
         score = compatibility(s1, s2)
-        all_pairs.append((score, s1["name"], s2["name"]))
 
-    all_pairs.sort(reverse=True)
+        if score > 0:
 
-    used = set()
+            G.add_edge(
+                s1["name"],
+                s2["name"],
+                weight=score
+            )
+
+    # Compute optimal matching
+    matching = nx.max_weight_matching(
+        G,
+        maxcardinality=True
+    )
+
     final_pairs = []
 
-    for score, n1, n2 in all_pairs:
-        if n1 not in used and n2 not in used and score > 0:
-            final_pairs.append({
-                "student1": n1,
-                "student2": n2,
-                "score": score
-            })
-            
-            used.add(n1)
-            used.add(n2)
+    for n1, n2 in matching:
+
+        score = G[n1][n2]["weight"]
+
+        final_pairs.append({
+            "student1": n1,
+            "student2": n2,
+            "score": score
+        })
 
     return final_pairs
+

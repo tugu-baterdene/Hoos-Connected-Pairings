@@ -1,23 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Pairing Results</title>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Pairing Results
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+
 </head>
 
-<body>
+<body class="results-page">
 
-<h1>Generated Pairings</h1>
+    <div class="background-glow glow1"></div>
+    <div class="background-glow glow2"></div>
 
-<ul>
-    {% for pair in pairings %}
-        <li>
-            <b>{{ pair.student1 }}</b> ↔ <b>{{ pair.student2 }}</b>
-            (Score: {{ pair.score }})
-        </li>
-    {% endfor %}
-</ul>
+    <main class="results-container">
 
-<a href="/download">Download CSV</a>
+        <div class="results-header">
+
+            <h1>
+                Generated
+                <span>Pairings</span>
+            </h1>
+
+            <p>
+                Optimized facilitator matches based on
+                availability, experience balance,
+                and confidence compatibility.
+            </p>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Facilitator 1</th>
+                        <th>Facilitator 2</th>
+                        <th>Score</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for pair in pairings %}
+
+                    <tr>
+
+                        <td>
+                            {{ pair.student1 }}
+                        </td>
+
+                        <td>
+                            {{ pair.student2 }}
+                        </td>
+
+                        <td>
+
+                            <span class="score-pill">
+
+                                {{ pair.score }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="results-buttons">
+
+            <a
+                href="/download"
+                class="download-button"
+            >
+                Download CSV
+            </a>
+
+            <a
+                href="/"
+                class="back-button"
+            >
+                Upload Another File
+            </a>
+
+        </div>
+
+    </main>
 
 </body>
+
 </html>

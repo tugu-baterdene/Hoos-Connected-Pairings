@@ -1,23 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Hoos Connected Pairings</title>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Hoos Connected Pairings
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+
 </head>
 
 <body>
 
-    <h1>Hoos Connected Pairing System</h1>
+    <div class="background-glow glow1"></div>
+    <div class="background-glow glow2"></div>
 
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <main class="container">
 
-        <input type="file" name="file" accept=".csv">
+        <section class="left-section">
 
-        <button type="submit">
-            Generate Pairings
-        </button>
+            <img
+                src="/static/hero.png"
+                alt="Hoos Connected"
+                class="hero-image"
+            >
 
-    </form>
+        </section>
+
+        <section class="right-section">
+
+            <div class="card">
+
+                <h1>
+                    Hoos Connected
+                    <span>Pairing System</span>
+                </h1>
+
+                <p class="subtitle">
+
+                    Automatically generate optimized facilitator pairings
+                    based on shared availability, experience balancing,
+                    and confidence compatibility.
+
+                </p>
+
+                <form
+                    action="/upload"
+                    method="post"
+                    enctype="multipart/form-data"
+                    class="upload-form"
+                >
+
+                    <label class="custom-file-upload">
+
+                        <input
+                            type="file"
+                            name="file"
+                            accept=".csv"
+                            required
+                        >
+
+                        Upload CSV File
+
+                    </label>
+
+                    <button type="submit">
+
+                        Generate Pairings
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </body>
 

@@ -1,5 +1,6 @@
 from itertools import combinations
 import networkx as nx
+from app.config import WEIGHTS
 
 # Algorithm for pairing students based on:
 #  - Availability overlap (3 points per overlapping time slot)
@@ -33,9 +34,9 @@ def compatibility(s1, s2):
         return -999  # impossible pair
 
     return (
-        overlap * 3
-        + experience_score(s1, s2) * 4
-        + confidence_score(s1, s2) * 2
+        overlap * WEIGHTS["overlap"]
+        + experience_score(s1, s2) * WEIGHTS["experience"]
+        + confidence_score(s1, s2) * WEIGHTS["confidence"]
     )
 
 def shared_availability(s1, s2):

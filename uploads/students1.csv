@@ -1,0 +1,5 @@
+name,facilitated_before,confidence,availability
+Alice,True,5,"Mon:6PM|7PM;Wed:5PM"
+Bob,False,2,"Mon:7PM;Wed:5PM"
+Charlie,False,1,"Mon:6PM;Tue:4PM"
+Diana,True,4,"Mon:6PM|7PM"

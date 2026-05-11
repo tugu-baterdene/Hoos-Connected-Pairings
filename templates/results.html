@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pairing Results</title>
+</head>
+
+<body>
+
+<h1>Generated Pairings</h1>
+
+<ul>
+    {% for pair in pairings %}
+        <li>
+            <b>{{ pair.student1 }}</b> ↔ <b>{{ pair.student2 }}</b>
+            (Score: {{ pair.score }})
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="/download">Download CSV</a>
+
+</body>
+</html>

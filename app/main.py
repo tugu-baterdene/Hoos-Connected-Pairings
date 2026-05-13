@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from fastapi import FastAPI, UploadFile, File, Request
+from fastapi import FastAPI, UploadFile, File, Request, Form
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -17,6 +17,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 latest_pairings = []
+
+overlap_weight: int = Form(...),
+experience_weight: int = Form(...),
+confidence_weight: int = Form(...)
 
 
 @app.get("/")
@@ -42,8 +46,13 @@ async def upload_csv(request: Request,file: UploadFile = File(...)):
     # Load students
     students = load_students_from_csv(upload_path)
 
+    weights = {
+    "overlap": overlap_weight,
+    "experience": experience_weight,
+    "confidence": confidence_weight
+    }
     # Generate pairings
-    pairings = generate_pairings(students)
+    pairings = generate_pairings(students, weights)
 
     global latest_pairings
     latest_pairings = pairings

@@ -33,7 +33,7 @@ def home(request: Request):
 
 
 @app.post("/upload")
-async def upload_csv(request: Request,file: UploadFile = File(...)):
+async def upload_csv(request: Request,file: UploadFile = File(...), overlap_weight: int = Form(...), experience_weight: int = Form(...), confidence_weight: int = Form(...)):
 
     os.makedirs("uploads", exist_ok=True)
     os.makedirs("output", exist_ok=True)
@@ -47,9 +47,9 @@ async def upload_csv(request: Request,file: UploadFile = File(...)):
     students = load_students_from_csv(upload_path)
 
     weights = {
-    "overlap": overlap_weight,
-    "experience": experience_weight,
-    "confidence": confidence_weight
+        "overlap": overlap_weight,
+        "experience": experience_weight,
+        "confidence": confidence_weight
     }
     # Generate pairings
     pairings = generate_pairings(students, weights)

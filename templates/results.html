@@ -55,6 +55,7 @@
                         <th>Facilitator 1</th>
                         <th>Facilitator 2</th>
                         <th>Score</th>
+                        <th>Details</th>
 
                     </tr>
 
@@ -84,16 +85,77 @@
 
                         </td>
 
+                        <td>
+
+                            <details>
+
+                                <summary>
+                                    View Details
+                                </summary>
+
+                                <div class="pair-details">
+
+                                    <p>
+
+                                        <strong>
+                                            Shared Times:
+                                        </strong>
+
+                                    </p>
+
+                                    <ul>
+
+                                        {% for time in pair.shared_times %}
+
+                                            <li>
+                                                {{ time }}
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                    <p>
+
+                                        <strong>
+                                            Experience Balanced:
+                                        </strong>
+
+                                        {{ pair.experience_balanced }}
+
+                                    </p>
+
+                                    <p>
+
+                                        <strong>
+                                            Confidence Gap:
+                                        </strong>
+
+                                        {{ pair.confidence_gap }}
+
+                                    </p>
+
+                                    <p>
+
+                                        <strong>
+                                            Overlap Points:
+                                        </strong>
+
+                                        {{ pair.overlap_points }}
+
+                                    </p>
+
+                                </div>
+
+                            </details>
+
+                        </td>
+
                     </tr>
 
                     {% endfor %}
 
                 </tbody>
-
-            </table>
-
-        </div>
-
 
         <div class="results-buttons">
 

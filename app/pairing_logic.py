@@ -27,16 +27,16 @@ def confidence_score(s1, s2):
     return abs(s1["confidence"] - s2["confidence"])
 
 
-def compatibility(s1, s2):
+def compatibility(s1, s2, weights):
     overlap = overlap_score(s1, s2)
 
     if overlap == 0:
         return -999  # impossible pair
 
     return (
-        overlap * WEIGHTS["overlap"]
-        + experience_score(s1, s2) * WEIGHTS["experience"]
-        + confidence_score(s1, s2) * WEIGHTS["confidence"]
+        overlap * weights["overlap"]
+        + experience_score(s1, s2) * weights["experience"]
+        + confidence_score(s1, s2) * weights["confidence"]
     )
 
 def shared_availability(s1, s2):
@@ -57,13 +57,13 @@ def shared_availability(s1, s2):
 
     return shared
 
-def generate_pairings(students):
+def generate_pairings(students, weights):
     G = nx.Graph()
 
     # Add weighted edges
     for s1, s2 in combinations(students, 2):
 
-        score = compatibility(s1, s2)
+        score = compatibility(s1, s2, weights)
 
         print(f"Compatibility between {s1['name']} and {s2['name']}: {score}")
 
@@ -89,6 +89,12 @@ def generate_pairings(students):
 
         score = G[n1][n2]["weight"]
 
+        details = detailed_breakdown(
+            s1,
+            s2,
+            weights
+        )
+
         s1 = next(s for s in students if s["name"] == n1)
         s2 = next(s for s in students if s["name"] == n2)
 
@@ -96,8 +102,47 @@ def generate_pairings(students):
             "student1": n1,
             "student2": n2,
             "score": score,
-            "shared_times": shared_availability(s1, s2)
+            "shared_times": details["shared_times"],
+            "overlap_points": details["overlap_points"],
+            "experience_points": details["experience_points"],
+            "confidence_points": details["confidence_points"],
+            "experience_balanced": details["experience_balanced"],
+            "confidence_gap": details["confidence_gap"]
         })
 
     return final_pairs
 
+def detailed_breakdown(s1, s2, weights):
+
+    overlap = overlap_score(s1, s2)
+
+    experience = experience_score(s1, s2)
+
+    confidence = confidence_score(s1, s2)
+
+    return {
+
+        "overlap_points":
+            overlap * weights["overlap"],
+
+        "experience_points":
+            experience * weights["experience"],
+
+        "confidence_points":
+            confidence * weights["confidence"],
+
+        "shared_times":
+            shared_availability(s1, s2),
+
+        "experience_balanced":
+            s1["facilitated_before"]
+            !=
+            s2["facilitated_before"],
+
+        "confidence_gap":
+            abs(
+                s1["confidence"]
+                -
+                s2["confidence"]
+            )
+    }

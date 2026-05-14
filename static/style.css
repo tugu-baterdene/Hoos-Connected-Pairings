@@ -145,7 +145,8 @@ body {
 .card {
 
     width: 100%;
-    max-width: 520px;
+
+    max-width: 620px;
 
     background: rgba(255,255,255,0.72);
 
@@ -196,7 +197,7 @@ body {
 
     line-height: 1.8;
 
-    margin-bottom: 40px;
+    margin-bottom: 18px;
 
     text-align: left;
 }
@@ -206,11 +207,14 @@ body {
 
 .upload-form {
 
+    width: 100%;
+
     display: flex;
 
     flex-direction: column;
 
     gap: 20px;
+
 }
 
 
@@ -615,4 +619,220 @@ tbody td {
 
         flex-direction: column;
     }
+}
+
+/* =========================
+   WEIGHT SECTION
+========================= */
+
+.weights-section {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 28px;
+
+    background: rgba(255,255,255,0.45);
+
+    border-radius: 24px;
+
+    padding: 30px;
+
+    border:
+        1px solid rgba(255,255,255,0.35);
+
+    margin-top: 8px;
+
+    margin-bottom: 12px;
+}
+
+
+/* Header */
+
+.weights-section h3 {
+
+    color: #1F2A63;
+
+    font-size: 1.25rem;
+
+    margin-bottom: 34px;
+
+    font-weight: 700;
+}
+
+
+/* Individual Slider Blocks */
+
+.slider-group {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.slider-group:last-child {
+
+    margin-bottom: 0;
+}
+
+
+/* Label + Value */
+
+.slider-header {
+
+    width: 100%;
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 14px;
+}
+
+.slider-header label {
+
+    color: #44525B;
+
+    font-weight: 600;
+
+    font-size: 1rem;
+}
+
+.slider-header span {
+
+    min-width: 38px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #27CAD3,
+            #1FB7D6
+        );
+
+    color: white;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 6px 14px rgba(39,202,211,0.22);
+}
+
+
+/* Slider */
+
+.slider-group input[type="range"] {
+
+    width: 100%;
+
+    min-width: 100%;
+
+    flex-grow: 1;
+
+    display: block;
+
+    -webkit-appearance: none;
+
+    appearance: none;
+
+    height: 12px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #27CAD3 0%,
+            #1F2A63 100%
+        );
+
+    outline: none;
+
+    margin: 0;
+}
+
+
+/* Slider Thumb */
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+
+    -webkit-appearance: none;
+
+    appearance: none;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    border: 4px solid #27CAD3;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease;
+
+    box-shadow:
+        0 6px 16px rgba(0,0,0,0.16);
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb:hover {
+
+    transform: scale(1.08);
+}
+
+details {
+
+    cursor: pointer;
+}
+
+summary {
+
+    color: #27CAD3;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+.pair-details {
+
+    margin-top: 16px;
+
+    background: rgba(39,202,211,0.08);
+
+    padding: 18px;
+
+    border-radius: 16px;
+}
+
+.pair-details p {
+
+    margin-bottom: 10px;
+
+    color: #34424D;
+}
+
+.pair-details ul {
+
+    margin-left: 18px;
+
+    margin-bottom: 12px;
 }

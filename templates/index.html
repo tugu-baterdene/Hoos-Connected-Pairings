@@ -61,11 +61,25 @@
                     enctype="multipart/form-data"
                     class="upload-form"
                 >
+                    <div class="weights-section">
+
+                    <h3>
+                        Optimization Weights
+                    </h3>
+
                     <div class="slider-group">
 
-                        <label>
-                            Availability Weight
-                        </label>
+                        <div class="slider-header">
+
+                            <label>
+                                Availability Overlap
+                            </label>
+
+                            <span id="overlap-value">
+                                3
+                            </span>
+
+                        </div>
 
                         <input
                             type="range"
@@ -73,41 +87,70 @@
                             min="1"
                             max="10"
                             value="3"
+                            oninput="
+                                document.getElementById('overlap-value').innerText = this.value
+                            "
                         >
 
                     </div>
 
+
                     <div class="slider-group">
 
-                        <label>
-                            Experience Weight
-                        </label>
+                        <div class="slider-header">
+
+                            <label>
+                                Experience Balance
+                            </label>
+
+                            <span id="experience-value">
+                                4
+                            </span>
+
+                        </div>
 
                         <input
                             type="range"
                             name="experience_weight"
                             min="1"
                             max="10"
-                            value="3"
+                            value="4"
+                            oninput="
+                                document.getElementById('experience-value').innerText = this.value
+                            "
                         >
 
                     </div>
 
+
                     <div class="slider-group">
 
-                        <label>
-                            Confidence Weight
-                        </label>
+                        <div class="slider-header">
+
+                            <label>
+                                Confidence Difference
+                            </label>
+
+                            <span id="confidence-value">
+                                2
+                            </span>
+
+                        </div>
 
                         <input
                             type="range"
                             name="confidence_weight"
                             min="1"
                             max="10"
-                            value="3"
+                            value="2"
+                            oninput="
+                                document.getElementById('confidence-value').innerText = this.value
+                            "
                         >
 
                     </div>
+
+                </div>
 
                     <label class="custom-file-upload">
 
@@ -121,6 +164,8 @@
                         Upload CSV File
 
                     </label>
+
+                    
 
                     <button type="submit">
 

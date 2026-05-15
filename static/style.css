@@ -6,16 +6,25 @@
     box-sizing: border-box;
 }
 
+html {
+
+    height: auto;
+    min-height: 100%;
+
+    overflow-x: hidden;
+}
+
 body {
 
+    height: auto;
     min-height: 100vh;
+    min-height: 100svh;
 
-    display: flex;
+    overflow-x: hidden;
+    overflow-y: visible;
 
-    justify-content: center;
-    align-items: center;
-
-    overflow: hidden;
+    padding-top: 40px;
+    padding-bottom: 40px;
 
     background:
         linear-gradient(
@@ -31,6 +40,7 @@ body {
         sans-serif;
 
     position: relative;
+
 }
 
 
@@ -83,9 +93,11 @@ body {
     width: 100%;
     max-width: 1400px;
 
+    margin: 0 auto;
+
     display: flex;
 
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 
     gap: 80px;

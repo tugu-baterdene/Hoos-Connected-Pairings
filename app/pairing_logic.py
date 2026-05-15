@@ -57,15 +57,19 @@ def shared_availability(s1, s2):
 
     return shared
 
-def generate_pairings(students, weights):
+def generate_pairings(students, weights=None):
+
+    if weights is None:
+        weights = WEIGHTS
+
     G = nx.Graph()
+
+    G.add_nodes_from(student["name"] for student in students)
 
     # Add weighted edges
     for s1, s2 in combinations(students, 2):
 
         score = compatibility(s1, s2, weights)
-
-        print(f"Compatibility between {s1['name']} and {s2['name']}: {score}")
 
         if score > 0:
 
@@ -89,14 +93,14 @@ def generate_pairings(students, weights):
 
         score = G[n1][n2]["weight"]
 
+        s1 = next(s for s in students if s["name"] == n1)
+        s2 = next(s for s in students if s["name"] == n2)
+
         details = detailed_breakdown(
             s1,
             s2,
             weights
         )
-
-        s1 = next(s for s in students if s["name"] == n1)
-        s2 = next(s for s in students if s["name"] == n2)
 
         final_pairs.append({
             "student1": n1,

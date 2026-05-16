@@ -56,6 +56,7 @@ This ensures the best overall pairing configuration rather than greedy local mat
 - FastAPI
 - Jinja2
 - NetworkX
+- SQLite database
 - HTML/CSS
 - CSV-based data pipeline
 
@@ -67,11 +68,17 @@ This ensures the best overall pairing configuration rather than greedy local mat
 Hoos-Connected-Pairings/
 │
 ├── app/
+|   ├── __init__.py
 │   ├── main.py
 │   ├── pairing_logic.py
+|   ├── config.py
+|   ├── database.py
 │   ├── csv_loader.py
 │   └── csv_writer.py
 │
+├── data/
+|   └── facilitators.db
+|
 ├── templates/
 │   ├── index.html
 │   └── results.html
@@ -124,9 +131,9 @@ http://127.0.0.1:8000
 Input CSV files should follow this structure:
 
 ```csv
-name,facilitated_before,confidence,Monday,Tuesday,Wednesday,Thursday,Friday
-Alice,True,9,"6PM;7PM","6PM","7PM","6PM;8PM","5PM"
-Bob,False,3,"7PM","6PM;7PM","7PM","8PM","5PM;6PM"
+student_id,name,facilitated_before,confidence,Monday,Tuesday,Wednesday,Thursday,Friday
+a,Alice,True,9,"6PM;7PM","6PM","7PM","6PM;8PM","5PM"
+b,Bob,False,3,"7PM","6PM;7PM","7PM","8PM","5PM;6PM"
 ```
 
 ---
@@ -165,7 +172,6 @@ Planned features include:
 - Graph visualizations
 - Pairing history tracking
 - Admin dashboard
-- Database support
 - Authentication system
 
 ---

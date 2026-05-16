@@ -416,6 +416,182 @@ button:hover {
 }
 
 
+/* Pairing Graph */
+
+.graph-card {
+
+    background: rgba(255,255,255,0.72);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: 30px;
+
+    padding: 28px;
+
+    border:
+        1px solid rgba(255,255,255,0.45);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.10);
+
+    margin-bottom: 30px;
+}
+
+.graph-header {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.graph-header h2 {
+
+    color: #1F2A63;
+
+    font-size: 1.4rem;
+
+    font-weight: 800;
+}
+
+.graph-header span {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 78px;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    background: rgba(39,202,211,0.12);
+
+    color: #1F2A63;
+
+    font-size: 0.9rem;
+
+    font-weight: 800;
+}
+
+.pairing-graph-frame {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.42);
+
+    border:
+        1px solid rgba(255,255,255,0.44);
+}
+
+.pairing-graph-svg {
+
+    display: block;
+
+    width: 100%;
+
+    min-width: 720px;
+}
+
+.graph-link {
+
+    stroke: #27CAD3;
+
+    stroke-width: 3;
+
+    stroke-linecap: round;
+}
+
+.graph-node-box {
+
+    fill: rgba(255,255,255,0.92);
+
+    stroke: rgba(39,202,211,0.20);
+
+    stroke-width: 1;
+
+    filter: drop-shadow(0 8px 16px rgba(31,42,99,0.08));
+}
+
+.graph-node-dot {
+
+    fill: #27CAD3;
+
+    filter: drop-shadow(0 0 6px rgba(39,202,211,0.34));
+}
+
+.graph-node-dot.secondary {
+
+    fill: #1F2A63;
+
+    filter: drop-shadow(0 0 6px rgba(31,42,99,0.24));
+}
+
+.graph-node-text {
+
+    fill: #24313A;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 0.94rem;
+
+    font-weight: 800;
+
+    dominant-baseline: middle;
+}
+
+.graph-score-circle {
+
+    fill: #1F2A63;
+
+    filter: drop-shadow(0 8px 16px rgba(31,42,99,0.26));
+}
+
+.graph-score-text {
+
+    fill: white;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 0.86rem;
+
+    font-weight: 900;
+
+    text-anchor: middle;
+
+    dominant-baseline: middle;
+}
+
+.graph-empty {
+
+    padding: 28px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.52);
+
+    color: #61717C;
+
+    font-weight: 700;
+}
+
+
 /* Table Card */
 
 .table-card {
@@ -619,6 +795,13 @@ tbody td {
     .results-header h1 {
 
         font-size: 2.8rem;
+    }
+
+    .graph-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
     }
 
     .table-card {

@@ -44,6 +44,58 @@
         </div>
 
 
+        <section
+            class="graph-card"
+            aria-label="Pairing graph"
+        >
+
+            <div class="graph-header">
+
+                <h2>
+                    Pairing Graph
+                </h2>
+
+                <span>
+                    {{ pairings|length }} pairs
+                </span>
+
+            </div>
+
+            <div class="pairing-graph-frame">
+
+                <svg
+                    id="pairing-graph"
+                    class="pairing-graph-svg"
+                    role="img"
+                    aria-labelledby="pairing-graph-title"
+                >
+
+                    <title id="pairing-graph-title">
+                        Facilitator pairing graph
+                    </title>
+
+                </svg>
+
+            </div>
+
+            <script
+                id="pairing-graph-data"
+                type="application/json"
+            >
+                {{ pairings|tojson }}
+            </script>
+
+            <div
+                id="pairing-graph-empty"
+                class="graph-empty"
+                hidden
+            >
+                No pairings to visualize.
+            </div>
+
+        </section>
+
+
         <div class="table-card">
 
             <table>
@@ -165,6 +217,10 @@
 
                 </tbody>
 
+            </table>
+
+        </div>
+
         <div class="results-buttons">
 
             <a
@@ -184,6 +240,213 @@
         </div>
 
     </main>
+
+    <script>
+        const graphDataElement = document.getElementById("pairing-graph-data");
+        const graphSvg = document.getElementById("pairing-graph");
+        const graphFrame = document.querySelector(".pairing-graph-frame");
+        const graphEmpty = document.getElementById("pairing-graph-empty");
+
+        const graphPairs = JSON.parse(
+            graphDataElement.textContent || "[]"
+        );
+
+        function facilitatorLabel(pair, side) {
+
+            const idKey = side === 1 ? "student1_id" : "student2_id";
+            const nameKey = side === 1 ? "student1" : "student2";
+
+            if (pair[idKey]) {
+                return `${pair[idKey]}, ${pair[nameKey]}`;
+            }
+
+            return pair[nameKey];
+        }
+
+        function createSvgElement(name, attributes = {}) {
+
+            const element = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                name
+            );
+
+            Object.entries(attributes).forEach(([key, value]) => {
+                element.setAttribute(key, value);
+            });
+
+            return element;
+        }
+
+        function addText(parent, text, x, y, className) {
+
+            const textElement = createSvgElement(
+                "text",
+                {
+                    x,
+                    y,
+                    class: className
+                }
+            );
+
+            textElement.textContent = text;
+            parent.appendChild(textElement);
+
+            return textElement;
+        }
+
+        function renderPairingGraph() {
+
+            graphSvg
+                .querySelectorAll(":not(title)")
+                .forEach((element) => element.remove());
+
+            if (!graphPairs.length) {
+                graphFrame.hidden = true;
+                graphEmpty.hidden = false;
+                return;
+            }
+
+            graphFrame.hidden = false;
+            graphEmpty.hidden = true;
+
+            const isCompact = graphFrame.clientWidth < 760;
+            const columns = isCompact ? 1 : 2;
+            const nodeWidth = isCompact ? 260 : 180;
+            const nodeHeight = 58;
+            const edgeWidth = isCompact ? 72 : 82;
+            const gap = 20;
+            const cellWidth = nodeWidth * 2 + edgeWidth + gap * 2;
+            const cellHeight = 104;
+            const outerPadding = 18;
+            const rows = Math.ceil(graphPairs.length / columns);
+            const graphWidth =
+                columns * cellWidth + (columns - 1) * 36 + outerPadding * 2;
+            const graphHeight =
+                rows * cellHeight + outerPadding * 2;
+
+            graphSvg.setAttribute(
+                "viewBox",
+                `0 0 ${graphWidth} ${graphHeight}`
+            );
+            graphSvg.style.aspectRatio = `${graphWidth} / ${graphHeight}`;
+
+            graphPairs.forEach((pair, index) => {
+
+                const column = index % columns;
+                const row = Math.floor(index / columns);
+                const x =
+                    outerPadding +
+                    column * (cellWidth + 36);
+                const y =
+                    outerPadding +
+                    row * cellHeight;
+                const node1X = x;
+                const node2X = x + nodeWidth + edgeWidth + gap * 2;
+                const nodeY = y + 22;
+                const edgeStart = node1X + nodeWidth + gap;
+                const edgeEnd = node2X - gap;
+                const edgeY = nodeY + nodeHeight / 2;
+                const scoreX = (edgeStart + edgeEnd) / 2;
+
+                const group = createSvgElement(
+                    "g",
+                    {
+                        class: "graph-match"
+                    }
+                );
+
+                const line = createSvgElement(
+                    "line",
+                    {
+                        x1: edgeStart,
+                        y1: edgeY,
+                        x2: edgeEnd,
+                        y2: edgeY,
+                        class: "graph-link"
+                    }
+                );
+
+                group.appendChild(line);
+
+                [
+                    {
+                        x: node1X,
+                        label: facilitatorLabel(pair, 1),
+                        type: "primary"
+                    },
+                    {
+                        x: node2X,
+                        label: facilitatorLabel(pair, 2),
+                        type: "secondary"
+                    }
+                ].forEach((node) => {
+
+                    group.appendChild(
+                        createSvgElement(
+                            "rect",
+                            {
+                                x: node.x,
+                                y: nodeY,
+                                width: nodeWidth,
+                                height: nodeHeight,
+                                rx: 14,
+                                class: "graph-node-box"
+                            }
+                        )
+                    );
+
+                    group.appendChild(
+                        createSvgElement(
+                            "circle",
+                            {
+                                cx: node.x + 18,
+                                cy: edgeY,
+                                r: 7,
+                                class: `graph-node-dot ${node.type}`
+                            }
+                        )
+                    );
+
+                    addText(
+                        group,
+                        node.label,
+                        node.x + 34,
+                        edgeY + 5,
+                        "graph-node-text"
+                    );
+                });
+
+                group.appendChild(
+                    createSvgElement(
+                        "circle",
+                        {
+                            cx: scoreX,
+                            cy: edgeY,
+                            r: 20,
+                            class: "graph-score-circle"
+                        }
+                    )
+                );
+
+                addText(
+                    group,
+                    pair.score,
+                    scoreX,
+                    edgeY + 5,
+                    "graph-score-text"
+                );
+
+                graphSvg.appendChild(group);
+            });
+        }
+
+        renderPairingGraph();
+
+        window.addEventListener(
+            "resize",
+            renderPairingGraph
+        );
+    </script>
 
 </body>
 

@@ -1,5 +1,5 @@
 from itertools import combinations
-import networkx as nx
+import networkx as nx  # type: ignore[import]
 from app.config import WEIGHTS
 
 # Algorithm for pairing students based on:

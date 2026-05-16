@@ -2,10 +2,10 @@ import os
 import shutil
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, UploadFile, File, Request, Form
-from fastapi.responses import FileResponse
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, UploadFile, File, Request, Form  # type: ignore[import]
+from fastapi.responses import FileResponse  # type: ignore[import]
+from fastapi.templating import Jinja2Templates  # type: ignore[import]
+from fastapi.staticfiles import StaticFiles  # type: ignore[import]
 
 from app.csv_loader import load_students_from_csv
 from app.csv_writer import write_pairings_to_csv

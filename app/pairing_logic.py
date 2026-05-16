@@ -57,6 +57,12 @@ def shared_availability(s1, s2):
 
     return shared
 
+
+def student_key(student):
+
+    return student.get("student_id", student["name"])
+
+
 def generate_pairings(students, weights=None):
 
     if weights is None:
@@ -64,7 +70,12 @@ def generate_pairings(students, weights=None):
 
     G = nx.Graph()
 
-    G.add_nodes_from(student["name"] for student in students)
+    students_by_id = {
+        student_key(student): student
+        for student in students
+    }
+
+    G.add_nodes_from(students_by_id)
 
     # Add weighted edges
     for s1, s2 in combinations(students, 2):
@@ -74,8 +85,8 @@ def generate_pairings(students, weights=None):
         if score > 0:
 
             G.add_edge(
-                s1["name"],
-                s2["name"],
+                student_key(s1),
+                student_key(s2),
                 weight=score
             )
 
@@ -93,8 +104,8 @@ def generate_pairings(students, weights=None):
 
         score = G[n1][n2]["weight"]
 
-        s1 = next(s for s in students if s["name"] == n1)
-        s2 = next(s for s in students if s["name"] == n2)
+        s1 = students_by_id[n1]
+        s2 = students_by_id[n2]
 
         details = detailed_breakdown(
             s1,
@@ -103,8 +114,10 @@ def generate_pairings(students, weights=None):
         )
 
         final_pairs.append({
-            "student1": n1,
-            "student2": n2,
+            "student1_id": n1,
+            "student2_id": n2,
+            "student1": s1["name"],
+            "student2": s2["name"],
             "score": score,
             "shared_times": details["shared_times"],
             "overlap_points": details["overlap_points"],

@@ -18,7 +18,9 @@ def write_pairings_to_csv(pairings, filename):
     with open(filename, "w", newline="") as csvfile:
 
         fieldnames = [
+            "student1_id",
             "student1",
+            "student2_id",
             "student2",
             "score",
             "shared_times"
@@ -34,7 +36,9 @@ def write_pairings_to_csv(pairings, filename):
         for pair in pairings:
 
             writer.writerow({
+                "student1_id": pair.get("student1_id", ""),
                 "student1": pair["student1"],
+                "student2_id": pair.get("student2_id", ""),
                 "student2": pair["student2"],
                 "score": pair["score"],
                 "shared_times":

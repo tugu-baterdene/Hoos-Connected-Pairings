@@ -20,6 +20,16 @@ DAY_COLUMNS = {
     "sun": "Sun",
 }
 
+STUDENT_ID_COLUMNS = [
+    "student_id",
+    "studentid",
+    "id",
+    "uva_id",
+    "computing_id",
+    "net_id",
+    "email",
+]
+
 
 def normalize_key(key):
 
@@ -95,6 +105,18 @@ def parse_bool(value):
     return value.strip().lower() in {"true", "yes", "y", "1"}
 
 
+def get_student_id(row, name, row_number):
+
+    for key in STUDENT_ID_COLUMNS:
+
+        if row.get(key):
+            return row[key]
+
+    fallback_name = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+    return f"row-{row_number - 1}-{fallback_name}"
+
+
 def load_students_from_csv(filename):
 
     students = []
@@ -131,12 +153,19 @@ def load_students_from_csv(filename):
                 row_number
             )
 
+            name = get_required_value(
+                normalized_row,
+                "name",
+                row_number
+            )
+
             students.append({
-                "name": get_required_value(
+                "student_id": get_student_id(
                     normalized_row,
-                    "name",
+                    name,
                     row_number
                 ),
+                "name": name,
                 "facilitated_before":
                     parse_bool(
                         get_required_value(

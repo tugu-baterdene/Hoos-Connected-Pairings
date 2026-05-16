@@ -1,5 +1,6 @@
 import os
 import shutil
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, UploadFile, File, Request, Form
 from fastapi.responses import FileResponse
@@ -8,19 +9,24 @@ from fastapi.staticfiles import StaticFiles
 
 from app.csv_loader import load_students_from_csv
 from app.csv_writer import write_pairings_to_csv
+from app.database import get_facilitators, init_db, save_facilitators
 from app.pairing_logic import generate_pairings
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+
+    init_db()
+
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
 latest_pairings = []
-
-overlap_weight: int = Form(...),
-experience_weight: int = Form(...),
-confidence_weight: int = Form(...)
 
 
 @app.get("/")
@@ -45,6 +51,7 @@ async def upload_csv(request: Request,file: UploadFile = File(...), overlap_weig
 
     # Load students
     students = load_students_from_csv(upload_path)
+    save_facilitators(students)
 
     weights = {
         "overlap": overlap_weight,
@@ -62,6 +69,15 @@ async def upload_csv(request: Request,file: UploadFile = File(...), overlap_weig
         name="results.html",
         context={"pairings": pairings}
     )
+
+
+@app.get("/facilitators")
+def facilitators():
+
+    return {
+        "facilitators": get_facilitators()
+    }
+
 
 @app.get("/download")
 def download_pairings():

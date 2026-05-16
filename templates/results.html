@@ -68,11 +68,19 @@
                     <tr>
 
                         <td>
-                            {{ pair.student1 }}
+                            {% if pair.student1_id %}
+                                {{ pair.student1_id }}, {{ pair.student1 }}
+                            {% else %}
+                                {{ pair.student1 }}
+                            {% endif %}
                         </td>
 
                         <td>
-                            {{ pair.student2 }}
+                            {% if pair.student2_id %}
+                                {{ pair.student2_id }}, {{ pair.student2 }}
+                            {% else %}
+                                {{ pair.student2 }}
+                            {% endif %}
                         </td>
 
                         <td>
